@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8082
+  description: Generated server url
+paths:
+  /multiply:
+    get:
+      tags:
+      - demo-controller
+      operationId: getResponse
+      parameters:
+      - name: param1
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: param2
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DemoResponse'
+components:
+  schemas:
+    DemoResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - SECURED
+          - NOT_SECURED
+        message:
+          type: string

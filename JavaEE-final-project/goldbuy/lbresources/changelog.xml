@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<databaseChangeLog
+   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro 
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd"
+      logicalFilePath="homework-2">
+    <changeSet id="drop-exists-table" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/00.drop-exists-table.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+
+    <changeSet id="create-category-table" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/01.create-category-table.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+    <changeSet id="create-roles-table" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/02.create-roles-table.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+    <changeSet id="create-credentials-table" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/03.create-credentials-table.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+    <changeSet id="create-users-table" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/04.create-users-table.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+    <changeSet id="create-products-table" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/05.create-products-table.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+    <changeSet id="create-history-table" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/06.create-history-table.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+    <changeSet id="create-productConfig-table" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/07.create-productConfig-table.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+    <changeSet id="create-index" author="Artsiom">
+        <sqlFile encoding="utf8" path="./lbresources/sql/08.create-index.sql" relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+</databaseChangeLog> 

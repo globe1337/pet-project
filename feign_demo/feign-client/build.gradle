@@ -1,0 +1,83 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
+plugins {
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'org.openapi.generator' version "4.3.1"
+}
+
+group = 'eu.senla'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+    set('springCloudVersion', "2020.0.0")
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    // для настройки работы Feign клиента через https
+    implementation 'org.apache.httpcomponents:httpclient:4.5.4'
+
+    //  сгенерированные классы потребовали определенных зависимостей
+    implementation 'io.swagger:swagger-annotations:1.6.2'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets["main"].resources
+// в папке resources
+        .asFileTree
+        .matching {
+//            ищем все yaml файлы, которые находятся внутри папки openapi
+            include "openapi/*.yaml"
+        }.forEach {
+    def fileName = it.name
+    def pkgName = fileName.replace(".yaml", "")
+//   создаем грейдлд таск (который будет генерировать код) для каждого файла
+    def openApiTask = tasks.register("generateOpenApi_${pkgName}", GenerateTask) {
+        group = "openapi"
+        generatorName = "spring"
+        inputSpec = "$rootDir/src/main/resources/openapi/${fileName}"
+        outputDir = "$buildDir/openapi"
+        apiPackage = "eu.senla.feignclient.${pkgName}.api"
+        modelPackage = "eu.senla.feignclient.${pkgName}.model"
+        apiFilesConstrainedTo = []
+        modelFilesConstrainedTo = []
+        validateSpec = true
+        additionalProperties = [
+                enumPropertyNaming  : "UPPERCASE",
+                interfaceOnly       : "true",
+                useTags             : "true",
+//                выключаем генерацию дефолтной реализации интерфейсов, т.к. Feign
+//                не генерирует свой код, для дефолтных методов
+                skipDefaultInterface: "true"
+        ]
+    }
+//    говорим, что компиляция должна произойти, после выполнение таска генерации кода
+    compileJava.dependsOn(openApiTask)
+}
+// добавляем папку со сгенеренными классами в classpath
+sourceSets["main"].java.srcDirs("$buildDir/openapi/src/main/java")

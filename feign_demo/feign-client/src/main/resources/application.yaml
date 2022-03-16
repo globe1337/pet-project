@@ -1,0 +1,21 @@
+server:
+  port: 8083
+
+demo-service.url:
+  http: ${DEMO_SERVICE_HTTP:http://localhost:8082}
+  https: ${DEMO_SERVICE_HTTPS:https://localhost:8443}
+
+# Здесь выставляем подробность логирования запросов через Feign
+# можно настроить индивидульно для каждого Feign клиента
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
+
+logging:
+  level:
+    eu.senla.feignclient:
+      generated: debug
+      secured: debug
+      classic: debug

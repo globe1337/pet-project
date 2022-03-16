@@ -1,0 +1,35 @@
+version: '3.3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: 'rabbitmq'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  producer:
+    build:
+      context: producer
+      dockerfile: Dockerfile
+    container_name: eCab_producer
+    image: 'ecab_producer'
+    ports:
+      - "9000:9000"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    restart: on-failure
+
+  consumer:
+    build:
+      context: consumer
+      dockerfile: Dockerfile
+    container_name: eCab_consumer
+    image: 'ecab_consumer'
+    ports:
+      - "8000:8000"
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq

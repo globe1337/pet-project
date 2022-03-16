@@ -1,0 +1,13 @@
+server:
+  port: 8443
+  ssl:
+  # The format used for the keystore. It could be set to JKS in case it is a JKS file
+    key-store-type: PKCS12
+  # The path to the keystore containing the certificate
+    key-store: classpath:keystore/senla.p12
+  # The password used to generate the certificate
+    key-store-password: qwerty
+  # The alias mapped to the certificate
+    key-alias: senla-cert
+  http:
+    port: 8082

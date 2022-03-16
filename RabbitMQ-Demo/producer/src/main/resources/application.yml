@@ -1,0 +1,20 @@
+logging:
+  level:
+    root: ERROR
+    org:
+      springframework:
+        amqp: debug
+    com.ecabs.booking: debug
+spring:
+  application:
+    name: producer
+server:
+  port: 9000
+
+rabbit:
+  addQueue: add
+  editQueue: edit
+  deleteQueue: delete
+  auditQueue: audit
+  messageExchange: MessageExchange
+  bookingExchange: BookingExchange
